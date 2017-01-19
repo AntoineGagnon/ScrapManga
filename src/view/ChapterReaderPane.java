@@ -1,14 +1,19 @@
 package view;
 
 import elements.Chapter;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -19,13 +24,13 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Semaphore;
+import java.util.concurrent.*;
 
 
 /**
  * Created by Antoine on 18/01/2017.
  */
-public class ChapterReaderPane extends AnchorPane {
+public class ChapterReaderPane extends BorderPane {
 
     @FXML
     public Button previousPage;
@@ -34,9 +39,14 @@ public class ChapterReaderPane extends AnchorPane {
     @FXML
     public Button nextPage;
 
-    private Semaphore mutex = new Semaphore(1);
+    @FXML public Text pageCounter;
 
-    private List<Image> images;
+    @FXML public BorderPane borderPane;
+
+    private BlockingQueue<Image> imagesLoadingQueue;
+
+    private List<Image> images = new ArrayList<>();
+
 
     private int currentPage = 1;
 
@@ -47,8 +57,6 @@ public class ChapterReaderPane extends AnchorPane {
 
     public ChapterReaderPane(Chapter chapter) {
         this.chapter = chapter;
-        this.images = new ArrayList<>();
-
 
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(
                 "layouts/chapter_reader_pane.fxml"));
@@ -61,27 +69,40 @@ public class ChapterReaderPane extends AnchorPane {
             exception.printStackTrace();
         }
 
-        nextPage.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                if (totalPages > (currentPage)) {
-                    while(images.get(currentPage).getProgress() != 1){
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    imageView.setImage(images.get(currentPage));
-                    currentPage++;
-                }
-            }
-        });
-
+        nextPage.setOnMouseClicked(event -> loadNextPage());
+        previousPage.setOnMouseClicked(event -> loadPreviousPage());
         loadImages();
 
     }
 
+    private void loadNextPage(){
+        if (totalPages > (currentPage)) {
+            try {
+                Image nextImage = null;
+                try{
+                     nextImage = images.get(currentPage);
+                }catch(Exception e){
+                    nextImage = imagesLoadingQueue.take();
+                    images.add(nextImage);
+                }
+
+                imageView.setImage(nextImage);
+                currentPage++;
+                pageCounter.setText(currentPage + "/" + totalPages);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void loadPreviousPage(){
+        if (currentPage > 1) {
+            Image previousImage = images.get(currentPage-2);
+            imageView.setImage(previousImage);
+            currentPage--;
+            pageCounter.setText(currentPage + "/" + totalPages);
+        }
+    }
     private void loadImages() {
         Document doc = null;
         try {
@@ -95,9 +116,6 @@ public class ChapterReaderPane extends AnchorPane {
             Element lastPage = pagesList.getElementsByTag("option").last();
             totalPages = Integer.parseInt(lastPage.val());
 
-            for (int i = 0; i < totalPages; i++) {
-                this.images.add(null);
-            }
 
             Element image = doc.getElementsByClass("manga-page").first();
             String firstImageURL = image.attr("src");
@@ -108,26 +126,32 @@ public class ChapterReaderPane extends AnchorPane {
                 images.add(firstImage);
             }
 
+            Executor exec = Executors.newCachedThreadPool(runnable -> {
+                Thread t = new Thread(runnable);
+                t.setDaemon(true);
+                return t ;
+            });
 
-            for (int i = 2; i <= totalPages; i++) {
-                int finalI = i;
-                Runnable task = () -> {
+            imagesLoadingQueue = new ArrayBlockingQueue<Image>(totalPages);
+
+            exec.execute(() -> {
+                for (int i = 2; i <= totalPages; i++) {
                     try {
-                        mutex.acquire();
 
-                        String imageURL = getImageURLFromPage(chapter.address.toString() + finalI);
-                        images.add(finalI - 1, getImage(imageURL));
+                        String imageURL = getImageURLFromPage(chapter.address.toString() + i);
+                        System.out.println("Page " + i + "url = " + imageURL);
+                        imagesLoadingQueue.put( getImage(imageURL));
 
-                        mutex.release();
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                };
-                Thread backgroundThread = new Thread(task);
-                backgroundThread.setDaemon(true);
-                backgroundThread.start();
 
-            }
+
+                }
+            });
+
+
+
         }
 
 

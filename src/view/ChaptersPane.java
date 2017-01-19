@@ -35,7 +35,8 @@ public class ChaptersPane extends AnchorPane {
 
                     Tab chapterReader = new Tab();
                     chapterReader.setText(clicked.manga + " " + String.valueOf(clicked.number));
-                    chapterReader.setContent(new ChapterReaderPane(clicked));
+                    ChapterReaderPane readerPane = new ChapterReaderPane(clicked);
+                    chapterReader.setContent(readerPane);
                     if (mainTabPane != null) {
                         mainTabPane.getTabs().add(chapterReader);
                     }

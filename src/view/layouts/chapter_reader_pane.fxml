@@ -3,20 +3,25 @@
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Text?>
 
-<fx:root type="javafx.scene.layout.AnchorPane" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
-    <children>
-        <HBox alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-            <children>
-                <Button fx:id="previousPage" mnemonicParsing="false" text="left" />
-                <ImageView fx:id="imageView" cache="true" cacheHint="SPEED" fitHeight="Infinity" fitWidth="300.0" pickOnBounds="true" preserveRatio="true">
-               <cursor>
-                  <Cursor fx:constant="DISAPPEAR" />
-               </cursor></ImageView>
-                <Button fx:id="nextPage" defaultButton="true" mnemonicParsing="false" text="right" textAlignment="CENTER" />
-            </children>
-        </HBox>
-    </children>
+
+<fx:root type="BorderPane" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:id="borderPane">
+   <left>
+          <Button fx:id="previousPage" mnemonicParsing="false" text="left" BorderPane.alignment="CENTER" />
+   </left>
+   <right>
+          <Button fx:id="nextPage" defaultButton="true" mnemonicParsing="false" text="right" textAlignment="CENTER" BorderPane.alignment="CENTER" />
+   </right>
+   <bottom>
+      <Text fx:id="pageCounter" strokeType="OUTSIDE" strokeWidth="0.0" text="1/X" BorderPane.alignment="CENTER" />
+   </bottom>
+   <center>
+          <ImageView fx:id="imageView" cache="true" cacheHint="SPEED" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" fitHeight="900">
+         <cursor>
+            <Cursor fx:constant="DISAPPEAR" />
+         </cursor>
+      </ImageView>
+   </center>
 </fx:root>
