@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<fx:root xmlns:fx="http://javafx.com/fxml/1" type="javafx.scene.layout.AnchorPane" xmlns="http://javafx.com/javafx/8">
+    <children>
+        <HBox alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+              AnchorPane.topAnchor="0.0">
+            <children>
+                <Button fx:id="previousPage" mnemonicParsing="false" text="left"/>
+                <ImageView fx:id="imageView" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS"/>
+                <Button fx:id="nextPage" defaultButton="true" mnemonicParsing="false" text="right"
+                        textAlignment="CENTER"/>
+            </children>
+        </HBox>
+    </children>
+</fx:root>
