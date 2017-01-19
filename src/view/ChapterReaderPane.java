@@ -19,6 +19,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Semaphore;
 
 
 /**
@@ -32,6 +33,8 @@ public class ChapterReaderPane extends AnchorPane {
     public ImageView imageView;
     @FXML
     public Button nextPage;
+
+    private Semaphore mutex = new Semaphore(1);
 
     private List<Image> images;
 
@@ -61,7 +64,14 @@ public class ChapterReaderPane extends AnchorPane {
         nextPage.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                if (totalPages > (currentPage + 1)) {
+                if (totalPages > (currentPage)) {
+                    while(images.get(currentPage).getProgress() != 1){
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
                     imageView.setImage(images.get(currentPage));
                     currentPage++;
                 }
@@ -102,8 +112,16 @@ public class ChapterReaderPane extends AnchorPane {
             for (int i = 2; i <= totalPages; i++) {
                 int finalI = i;
                 Runnable task = () -> {
-                    String imageURL = getImageURLFromPage(chapter.address.toString() + finalI);
-                    images.add(finalI - 1, getImage(imageURL));
+                    try {
+                        mutex.acquire();
+
+                        String imageURL = getImageURLFromPage(chapter.address.toString() + finalI);
+                        images.add(finalI - 1, getImage(imageURL));
+
+                        mutex.release();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 };
                 Thread backgroundThread = new Thread(task);
                 backgroundThread.setDaemon(true);
