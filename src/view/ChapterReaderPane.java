@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -27,7 +28,7 @@ import java.util.concurrent.Executors;
 /**
  * Created by Antoine on 18/01/2017.
  */
-public class ChapterReaderPane extends BorderPane {
+public class ChapterReaderPane extends HBox {
 
     @FXML
     public Button previousPage;
@@ -38,6 +39,9 @@ public class ChapterReaderPane extends BorderPane {
 
     @FXML
     public Text pageCounter;
+
+    @FXML
+    public HBox mainControlsHBox;
 
     @FXML
     public BorderPane borderPane;
@@ -62,6 +66,7 @@ public class ChapterReaderPane extends BorderPane {
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
 
+
         try {
             fxmlLoader.load();
         } catch (IOException exception) {
@@ -70,8 +75,8 @@ public class ChapterReaderPane extends BorderPane {
 
         nextPage.setOnMouseClicked(event -> loadNextPage());
         previousPage.setOnMouseClicked(event -> loadPreviousPage());
+        imageView.fitHeightProperty().bind(mainControlsHBox.heightProperty());
         loadImages();
-
     }
 
     private void loadNextPage() {

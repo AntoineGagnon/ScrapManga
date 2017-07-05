@@ -5,7 +5,7 @@
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.layout.*?>
 <JFXTabPane xmlns:fx="http://javafx.com/fxml/1" fx:id="mainTabPane" minHeight="-Infinity" minWidth="-Infinity"
-            prefHeight="600.0" prefWidth="800.0" tabClosingPolicy="ALL_TABS" xmlns="http://javafx.com/javafx/8.0.111"
+            prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.111"
             fx:controller="view.TabController">
     <Tab closable="false" text="All">
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">

@@ -34,6 +34,7 @@ public class MangaPane extends AnchorPane {
                     Chapter clicked = listCell.getItem();
 
                     Tab chapterReader = new Tab();
+                    chapterReader.setClosable(true);
                     chapterReader.setText(clicked.manga + " " + String.valueOf(clicked.number));
                     ChapterReaderPane readerPane = new ChapterReaderPane(clicked);
                     chapterReader.setContent(readerPane);

@@ -39,6 +39,7 @@ public class TabController {
                     Manga clicked = listCell.getItem();
 
                     Tab chaptersTab = new Tab();
+                    chaptersTab.setClosable(true);
                     chaptersTab.setText(clicked.name);
                     chaptersTab.setContent(new MangaPane(clicked, mainTabPane));
                     mainTabPane.getTabs().add(chaptersTab);
@@ -61,6 +62,8 @@ public class TabController {
     }
 
     public void loadMoreMangas(ActionEvent actionEvent) {
+        System.out.println("Loading more mangas");
+
         mangaLoadingSpinner.setVisible(true);
 
         MangaLoader mangaLoader = Main.mangaLoader;

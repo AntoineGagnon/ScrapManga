@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module external.linked.project.id="scrapmanga:main" external.linked.project.path="$USER_HOME$/IdeaProjects/scrapmanga" external.root.project.path="$USER_HOME$/IdeaProjects/scrapmanga" external.system.id="GRADLE" external.system.module.group="ovh.antoinegagnon.scrapmanga" external.system.module.type="sourceSet" external.system.module.version="1.0-SNAPSHOT" type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
+    <output url="file://$USER_HOME$/IdeaProjects/scrapmanga/build/classes/main" />
+    <exclude-output />
+    <content url="file://$USER_HOME$/IdeaProjects/scrapmanga/src/main">
+      <sourceFolder url="file://$USER_HOME$/IdeaProjects/scrapmanga/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$USER_HOME$/IdeaProjects/scrapmanga/src/main/resources" type="java-resource" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>

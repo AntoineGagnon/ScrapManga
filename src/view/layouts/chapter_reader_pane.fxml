@@ -1,28 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.Cursor?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Text?>
-<fx:root xmlns:fx="http://javafx.com/fxml/1" fx:id="borderPane" type="BorderPane"
+<fx:root xmlns:fx="http://javafx.com/fxml/1" fx:id="mainControlsHBox" alignment="CENTER" type="HBox"
          xmlns="http://javafx.com/javafx/8.0.111">
-    <left>
-        <Button fx:id="previousPage" mnemonicParsing="false" text="left" BorderPane.alignment="CENTER"/>
-    </left>
-    <right>
+    <children>
+        <Button fx:id="previousPage" mnemonicParsing="false" text="left" HBox.hgrow="ALWAYS"/>
+        <VBox alignment="BOTTOM_CENTER" fillWidth="false" HBox.hgrow="NEVER">
+            <children>
+                <ImageView fx:id="imageView" cache="true" cacheHint="SPEED" preserveRatio="true" VBox.vgrow="NEVER">
+                    <cursor>
+                        <Cursor fx:constant="DISAPPEAR"/>
+                    </cursor>
+                    <VBox.margin>
+                        <Insets bottom="1.0"/>
+                    </VBox.margin>
+                    <image>
+                        <Image url="@../../../default_image.jpg"/>
+                    </image>
+                </ImageView>
+                <Text fx:id="pageCounter" strokeType="OUTSIDE" strokeWidth="0.0" text="1/X"/>
+            </children>
+        </VBox>
         <Button fx:id="nextPage" defaultButton="true" mnemonicParsing="false" text="right" textAlignment="CENTER"
-                BorderPane.alignment="CENTER"/>
-    </right>
-    <bottom>
-        <Text fx:id="pageCounter" strokeType="OUTSIDE" strokeWidth="0.0" text="1/X" BorderPane.alignment="CENTER"/>
-    </bottom>
-    <center>
-        <ImageView fx:id="imageView" cache="true" cacheHint="SPEED" pickOnBounds="true" preserveRatio="true"
-                   BorderPane.alignment="CENTER">
-            <cursor>
-                <Cursor fx:constant="DISAPPEAR"/>
-            </cursor>
-        </ImageView>
-    </center>
+                HBox.hgrow="ALWAYS"/>
+    </children>
 </fx:root>

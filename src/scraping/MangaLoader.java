@@ -18,10 +18,10 @@ import java.util.List;
  * Created by Antoine on 18/01/2017.
  */
 public class MangaLoader {
-    private static final String WEBSITE_ADDRESS = "http://www.mangadeep.com/latest-chapters/";
+    private static final String WEBSITE_ADDRESS = "http://www.mangadeep.com/latest-chapters";
 
     private Document doc;
-    private int currentPage = 0;
+    private int currentPage = 1;
     private List<String> favorites = null;
 
     public MangaLoader() {
@@ -54,6 +54,7 @@ public class MangaLoader {
     private List<Manga> getMangasFromDoc(Document doc, boolean filterFavorite) {
         List<Manga> mangas = new ArrayList<>();
 
+        System.out.println("Is doc nul ? " + doc.toString());
         if (doc == null) {
             return mangas;
         }
@@ -62,49 +63,50 @@ public class MangaLoader {
 
         for (Element row :
                 rows) {
-            Element link = row.getElementsByClass("ttl").first();
+            Manga m = getMangaFromLink(row);
 
-            // Get Manga Name
-            String name = link.attr("alt");
             if (filterFavorite) {
-                if (isFavorite(name)) {
-
-                    // Get Manga URI
-                    URI address = null;
-                    try {
-                        address = new URI(link.attr("href"));
-
-                    } catch (URISyntaxException e) {
-                        e.printStackTrace();
-                    }
-
-                    System.out.println("Loading : " + name);
-                    mangas.add(new Manga(name, address));
+                if (isFavorite(m.name)) {
+                    mangas.add(m);
                 }
             } else {
-                // Get Manga URI
-                URI address = null;
-                try {
-                    address = new URI(link.attr("href"));
+                mangas.add(m);
 
-                } catch (URISyntaxException e) {
-                    e.printStackTrace();
-                }
-
-                System.out.println("Loading : " + name);
-                mangas.add(new Manga(name, address));
             }
         }
         return mangas;
     }
 
+    private Manga getMangaFromLink(Element row) {
+        Element link = row.getElementsByClass("ttl").first();
+
+        // Get Manga Name
+        String name = link.attr("alt");
+
+        // Get Manga URI
+        URI address = null;
+        String lastUpdate = "";
+        try {
+            address = new URI(link.attr("href"));
+            lastUpdate = row.getElementsByClass("dte").first().html();
+
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Loading : " + name);
+        return new Manga(name, address, lastUpdate);
+    }
+
     public List<Manga> loadMangas() {
 
+        System.out.println("Loading mangas from page " + currentPage);
         return getMangasFromDoc(doc, false);
 
     }
 
     public List<Manga> loadFavorites() {
+        System.out.println("Loading favorites from page " + currentPage);
 
         return getMangasFromDoc(doc, true);
     }
@@ -121,6 +123,7 @@ public class MangaLoader {
 
     private void refreshDoc() {
         try {
+            System.out.println("Refreshing doc");
             doc = Jsoup.connect(WEBSITE_ADDRESS + '/' + currentPage).get();
         } catch (IOException e) {
             e.printStackTrace();

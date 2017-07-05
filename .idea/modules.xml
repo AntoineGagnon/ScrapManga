@@ -3,6 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/MangaReader.iml" filepath="$PROJECT_DIR$/MangaReader.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/scrapmanga.iml" filepath="$PROJECT_DIR$/.idea/modules/scrapmanga.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/scrapmanga_main.iml" filepath="$PROJECT_DIR$/.idea/modules/scrapmanga_main.iml" group="scrapmanga" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/scrapmanga_test.iml" filepath="$PROJECT_DIR$/.idea/modules/scrapmanga_test.iml" group="scrapmanga" />
     </modules>
   </component>
 </project>
