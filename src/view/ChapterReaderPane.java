@@ -1,18 +1,12 @@
 package view;
 
 import elements.Chapter;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -24,7 +18,10 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.*;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 
 /**
@@ -39,9 +36,11 @@ public class ChapterReaderPane extends BorderPane {
     @FXML
     public Button nextPage;
 
-    @FXML public Text pageCounter;
+    @FXML
+    public Text pageCounter;
 
-    @FXML public BorderPane borderPane;
+    @FXML
+    public BorderPane borderPane;
 
     private BlockingQueue<Image> imagesLoadingQueue;
 
@@ -75,13 +74,13 @@ public class ChapterReaderPane extends BorderPane {
 
     }
 
-    private void loadNextPage(){
+    private void loadNextPage() {
         if (totalPages > (currentPage)) {
             try {
                 Image nextImage = null;
-                try{
-                     nextImage = images.get(currentPage);
-                }catch(Exception e){
+                try {
+                    nextImage = images.get(currentPage);
+                } catch (Exception e) {
                     nextImage = imagesLoadingQueue.take();
                     images.add(nextImage);
                 }
@@ -95,14 +94,15 @@ public class ChapterReaderPane extends BorderPane {
         }
     }
 
-    private void loadPreviousPage(){
+    private void loadPreviousPage() {
         if (currentPage > 1) {
-            Image previousImage = images.get(currentPage-2);
+            Image previousImage = images.get(currentPage - 2);
             imageView.setImage(previousImage);
             currentPage--;
             pageCounter.setText(currentPage + "/" + totalPages);
         }
     }
+
     private void loadImages() {
         Document doc = null;
         try {
@@ -129,7 +129,7 @@ public class ChapterReaderPane extends BorderPane {
             Executor exec = Executors.newCachedThreadPool(runnable -> {
                 Thread t = new Thread(runnable);
                 t.setDaemon(true);
-                return t ;
+                return t;
             });
 
             imagesLoadingQueue = new ArrayBlockingQueue<Image>(totalPages);
@@ -140,7 +140,7 @@ public class ChapterReaderPane extends BorderPane {
 
                         String imageURL = getImageURLFromPage(chapter.address.toString() + i);
                         System.out.println("Page " + i + "url = " + imageURL);
-                        imagesLoadingQueue.put( getImage(imageURL));
+                        imagesLoadingQueue.put(getImage(imageURL));
 
                     } catch (InterruptedException e) {
                         e.printStackTrace();
@@ -149,7 +149,6 @@ public class ChapterReaderPane extends BorderPane {
 
                 }
             });
-
 
 
         }

@@ -1,24 +1,30 @@
 package view;
 
+import com.jfoenix.controls.JFXListCell;
 import elements.Manga;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
+import javafx.scene.layout.BorderPane;
 
 /**
  * Created by Antoine on 18/01/2017.
  */
-public class MangaListCell extends ListCell<Manga> {
+public class MangaListCell extends JFXListCell<Manga> {
 
     @Override
-    protected void updateItem(Manga item, boolean empty) {
+    public void updateItem(Manga item, boolean empty) {
         super.updateItem(item, empty);
-        Label text = new Label();
-        Label url = new Label();
+        BorderPane infoDisplay = new BorderPane();
+        Label mangaName = new Label();
+        Label lastUpdate = new Label();
+
+
+        infoDisplay.setLeft(mangaName);
+        infoDisplay.setRight(lastUpdate);
         if (item != null) {
             if (item.address != null) {
-                text.setText(item.name);
-                url.setText(item.address.toString());
-                setGraphic(text);
+                mangaName.setText(item.name);
+                lastUpdate.setText(item.lastRelease);
+                setGraphic(infoDisplay);
             }
         }
     }

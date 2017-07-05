@@ -10,8 +10,8 @@ import scraping.MangaLoader;
 
 public class Main extends Application {
 
+    public static MangaLoader mangaLoader;
     private TabController controller;
-
     private MANGASITE DEFAULT_SITE = MANGASITE.MANGAMAP;
 
     public static void main(String[] args) {
@@ -23,7 +23,7 @@ public class Main extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("layouts/main_window.fxml"));
         Parent root = loader.load();
         controller = loader.getController();
-        controller.loadManga();
+        controller.configureListViews();
         primaryStage.setTitle("Manga Reader");
         Scene newScene = new Scene(root, 800, 600);
         primaryStage.setScene(newScene);
@@ -31,8 +31,11 @@ public class Main extends Application {
         primaryStage.show();
 
         Runnable task = () -> {
-            MangaLoader ml = new MangaLoader(DEFAULT_SITE);
-            controller.mangas.addAll(ml.loadMangas());
+            mangaLoader = new MangaLoader();
+            controller.mangas.addAll(mangaLoader.loadMangas());
+            controller.favorites.addAll(mangaLoader.loadFavorites());
+            System.out.println("Done loading first round");
+            controller.mangaLoadingSpinner.setVisible(false);
         };
         Thread backgroundThread = new Thread(task);
         backgroundThread.setDaemon(true);

@@ -1,13 +1,13 @@
 package view;
 
+import com.jfoenix.controls.JFXListCell;
+import com.jfoenix.controls.JFXListView;
 import elements.Chapter;
 import elements.Manga;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.input.MouseButton;
@@ -20,12 +20,12 @@ import java.io.IOException;
 /**
  * Created by Antoine on 18/01/2017.
  */
-public class ChaptersPane extends AnchorPane {
+public class MangaPane extends AnchorPane {
     private final ObservableList<Chapter> chapters = FXCollections.observableArrayList();
     @FXML
-    public ListView<Chapter> chaptersListView;
+    public JFXListView<Chapter> chaptersListView;
     private TabPane mainTabPane = null;
-    private Callback cellController = (Callback<ListView, ListCell>) param -> {
+    private Callback cellController = (Callback<JFXListView, JFXListCell>) param -> {
         ChapterListCell listCell = new ChapterListCell();
         listCell.setOnMouseClicked(event -> {
             if (event.getButton().equals(MouseButton.PRIMARY)) {
@@ -47,7 +47,7 @@ public class ChaptersPane extends AnchorPane {
         return listCell;
     };
 
-    public ChaptersPane(Manga manga, TabPane mainTabPane) {
+    public MangaPane(Manga manga, TabPane mainTabPane) {
         this.mainTabPane = mainTabPane;
 
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(

@@ -1,41 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXListView?>
+<?import com.jfoenix.controls.JFXSpinner?>
+<?import com.jfoenix.controls.JFXTabPane?>
+<?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<TabPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="view.TabController"
-         maxHeight="-Infinity" maxWidth="-Infinity"
-         minHeight="-Infinity" minWidth="-Infinity"
-         prefHeight="400.0" prefWidth="600.0"
-         tabClosingPolicy="ALL_TABS" fx:id="mainTabPane">
-    <Tab text="All" closable="false">
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<JFXTabPane fx:id="mainTabPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" tabClosingPolicy="ALL_TABS" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.TabController">
+    <Tab closable="false" text="All">
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-            <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-                  AnchorPane.topAnchor="0.0">
+            <VBox alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                 <HBox alignment="CENTER" VBox.vgrow="NEVER">
                     <VBox.margin>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                     </VBox.margin>
-                    <TextField fx:id="searchTextField" promptText="Enter elements name"
-                               HBox.hgrow="ALWAYS"/>
-                    <Button mnemonicParsing="false" text="Search">
-                        <HBox.margin>
-                            <Insets left="10.0"/>
-                        </HBox.margin>
-                    </Button>
+                    <JFXTextField fx:id="searchTextField" promptText="Manga name" HBox.hgrow="ALWAYS" />
+                    <JFXButton text="Search" />
+
                 </HBox>
-                <ListView fx:id="mangaListView" VBox.vgrow="ALWAYS"/>
+                <JFXListView fx:id="mangaListView" VBox.vgrow="ALWAYS" />
+                <JFXButton fx:id="loadMoreButton" alignment="CENTER" maxWidth="1.7976931348623157E308" onAction="#loadMoreMangas" text="Load More" />
+                <JFXSpinner fx:id="mangaLoadingSpinner" AnchorPane.bottomAnchor="0.0" />
             </VBox>
+
         </AnchorPane>
+        <graphic>
+
+        </graphic>
     </Tab>
-    <Tab text="Favorites" closable="false">
+    <Tab closable="false" text="Favorites">
         <content>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                 <children>
-                    <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-                          AnchorPane.topAnchor="0.0">
+                    <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                         <children>
-                            <ListView fx:id="favoritesListView" VBox.vgrow="ALWAYS"/>
+                            <JFXListView fx:id="favoritesListView" VBox.vgrow="ALWAYS" />
                         </children>
                     </VBox>
                 </children>
@@ -43,4 +47,4 @@
         </content>
     </Tab>
 
-</TabPane>
+</JFXTabPane>

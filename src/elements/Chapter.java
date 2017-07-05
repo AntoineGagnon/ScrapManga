@@ -13,9 +13,12 @@ public class Chapter {
 
     public URI address;
 
-    public Chapter(String manga, double number, URI address) {
+    public String releaseDate;
+
+    public Chapter(String manga, double number, URI address, String chapterDate) {
         this.manga = manga;
         this.number = number;
         this.address = address;
+        this.releaseDate = chapterDate;
     }
 }

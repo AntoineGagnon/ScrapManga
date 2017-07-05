@@ -10,6 +10,7 @@ public class Manga {
     public String name;
 
     public URI address;
+    public String lastRelease;
 
 
     public Manga(String name, URI address) {

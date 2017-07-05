@@ -41,8 +41,10 @@ public class ChaptersLoader {
                 rows) {
 
             String chapterNumber = row.attr("title").substring(manga.name.length() + 9);
+            String chapterDate = row.children().get(1).html();
 
             System.out.println("Loading : " + chapterNumber);
+            System.out.println("Released on : " + chapterDate);
 
             try {
                 // Get Manga Name
@@ -57,7 +59,7 @@ public class ChaptersLoader {
                     e.printStackTrace();
                 }
 
-                chapters.add(new Chapter(manga.name, number, address));
+                chapters.add(new Chapter(manga.name, number, address, chapterDate));
             } catch (Exception e) {
                 e.printStackTrace();
             }
