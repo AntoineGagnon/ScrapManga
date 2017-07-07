@@ -11,7 +11,16 @@
       <entry name="!?*.kt" />
       <entry name="!?*.clj" />
     </wildcardResourcePatterns>
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="MangaReader" />
+      </profile>
+    </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="MangaReader" target="1.8" />
       <module name="scrapmanga_main" target="1.8" />
       <module name="scrapmanga_test" target="1.8" />
     </bytecodeTargetLevel>

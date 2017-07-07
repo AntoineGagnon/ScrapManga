@@ -31,6 +31,7 @@ public class TabController {
     @FXML
     public JFXSpinner mangaLoadingSpinner;
 
+
     public Callback cellController = (Callback<JFXListView, JFXListCell>) param -> {
         MangaListCell listCell = new MangaListCell();
         listCell.setOnMouseClicked(event -> {
@@ -44,6 +45,10 @@ public class TabController {
                     chaptersTab.setContent(new MangaPane(clicked, mainTabPane));
                     mainTabPane.getTabs().add(chaptersTab);
 
+                } else {
+                    if (event.isControlDown()) {
+                        Main.openInBrowser(listCell.getItem().address);
+                    }
                 }
             }
         });
@@ -66,7 +71,7 @@ public class TabController {
 
         mangaLoadingSpinner.setVisible(true);
 
-        MangaLoader mangaLoader = Main.mangaLoader;
+        MangaLoader mangaLoader = Main.getMangaLoader();
         mangaLoader.nextPage();
         mangas.addAll(mangaLoader.loadMangas());
         favorites.addAll(mangaLoader.loadFavorites());

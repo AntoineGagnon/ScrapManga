@@ -32,8 +32,9 @@ public class ChaptersLoader {
 
     }
 
+
     public List<Chapter> loadChapters() {
-        List<Chapter> chapters = new ArrayList<>();
+        List<Chapter> chapters = new ArrayList<Chapter>();
 
         Elements rows = doc.getElementsByAttributeValueStarting("title", manga.name + " Chapter");
 

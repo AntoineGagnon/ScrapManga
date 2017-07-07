@@ -7,8 +7,9 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -32,13 +33,34 @@ public class MangaLoader {
         }
     }
 
+    public void addToFavorites(String favorite) {
+        addToFavorites(favorite, false);
+    }
+
+    public void addToFavorites(String favorite, boolean addToFile) {
+        if (!favorites.contains(favorite)) {
+            favorites.add(favorite);
+            if (addToFile) {
+                try {
+                    System.out.println("Adding " + favorite + " to file");
+                    ClassLoader cl = getClass().getClassLoader();
+                    PrintWriter pw = new PrintWriter(cl.getResource("favorites.txt").getFile());
+                    pw.print(favorite);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
     private boolean isFavorite(String name) {
 
         if (favorites == null) {
-            favorites = new ArrayList<>();
+            favorites = new ArrayList<String>();
             try {
                 BufferedReader in;
-                in = new BufferedReader(new FileReader("favorites.txt"));
+                in = new BufferedReader(new InputStreamReader(this.getClass().getResource(
+                        "/favorites.txt").openConnection().getInputStream()));
                 String fetchedName;
                 while ((fetchedName = in.readLine()) != null) {
                     favorites.add(fetchedName);
@@ -52,9 +74,7 @@ public class MangaLoader {
     }
 
     private List<Manga> getMangasFromDoc(Document doc, boolean filterFavorite) {
-        List<Manga> mangas = new ArrayList<>();
-
-        System.out.println("Is doc nul ? " + doc.toString());
+        List<Manga> mangas = new ArrayList<Manga>();
         if (doc == null) {
             return mangas;
         }

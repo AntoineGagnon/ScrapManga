@@ -21,7 +21,7 @@
                         <Insets bottom="1.0"/>
                     </VBox.margin>
                     <image>
-                        <Image url="@../../../default_image.jpg"/>
+                        <Image url="@../default_image.jpg"/>
                     </image>
                 </ImageView>
                 <Text fx:id="pageCounter" strokeType="OUTSIDE" strokeWidth="0.0" text="1/X"/>

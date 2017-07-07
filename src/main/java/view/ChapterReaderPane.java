@@ -62,7 +62,7 @@ public class ChapterReaderPane extends HBox {
         this.chapter = chapter;
 
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(
-                "layouts/chapter_reader_pane.fxml"));
+                "/fxml/chapter_reader_pane.fxml"));
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
 

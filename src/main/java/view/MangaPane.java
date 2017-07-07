@@ -42,6 +42,10 @@ public class MangaPane extends AnchorPane {
                         mainTabPane.getTabs().add(chapterReader);
                     }
 
+                } else {
+                    if (event.isControlDown()) {
+                        Main.openInBrowser(listCell.getItem().address);
+                    }
                 }
             }
         });
@@ -52,7 +56,7 @@ public class MangaPane extends AnchorPane {
         this.mainTabPane = mainTabPane;
 
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(
-                "layouts/chapters_pane.fxml"));
+                "/fxml/chapters_pane.fxml"));
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
 
